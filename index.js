@@ -7,14 +7,19 @@ var inputs = document.querySelectorAll(".inputs");
 var table = document.querySelector(".table #data");
 var deleteButtons = [];
 var updataButton = [];
-
+var search = document.querySelector("#search");
+var form = document.querySelector("form");
+var inputStates = [];
+for (var i = 0; i < inputs.length; i++) {
+    inputStates.push(false);
+}
 var courses = [];
 var submitBtn = document.getElementById("submit");
 submitBtn.addEventListener("click", function(event) {
-    event.preventDefault();
+    // event.preventDefault();
     addCourse();
     clearInputs();
-    displayData();
+    displayData(courses);
     
 });
 
@@ -36,7 +41,7 @@ function clearInputs() {
     }
 }
 
-function displayData() {
+function displayData(courses) {
     var result = "";
     for (var i = 0; i < courses.length; i++) {
         result += `
@@ -48,21 +53,132 @@ function displayData() {
                 <td>${courses[i].description}</td>
                 <td>${courses[i].capacity}</td>
                 <td><button class="update-button btn btn-outline-info">Update</button></td>
-                <td><button class="delete-button btn btn-outline-danger" onclick="deleteCourse(${courses[i].id})">Delete</button></td>
+                <td><button id="delete-button" data-course-id="${courses[i].id}" class="btn btn-outline-danger" onclick="">Delete</button></td>
             </tr> 
         `;
     }
     table.innerHTML = result;
 }
 
+document.addEventListener("click", function(event) {
+    if (event.target.id == "delete-button") {
+        id = event.target.getAttribute("data-course-id");
+        deleteCourse(id);
+    }
+});
+
 function deleteCourse(id) {
     var target = biSearch(id);
-    console.log(target);
     if (target != -1) {
         courses.splice(target, 1);
     }
-    displayData();
+    displayData(courses);
 }
+
+search.addEventListener("keyup", function(event) {
+    var targetStr = event.target.value;
+    searchFor(targetStr.toLowerCase());
+});
+
+function searchFor(target) {
+    var targetCourses = [];
+    for (var i = 0; i < courses.length; i++) {
+        if (courses[i].name.toLowerCase().includes(target)) {
+            targetCourses.push(courses[i]);
+        }
+    }
+    displayData(targetCourses);
+}
+
+courseName.addEventListener("keyup", validateInputField);
+courseCategory.addEventListener("keyup", validateInputField);
+coursePrice.addEventListener("keyup", validateNumericalInputFields);
+courseCapacity.addEventListener("keyup", validateNumericalInputFields);
+courseDesc.addEventListener("keyup", validateCourseDescription);
+
+function validateInputField(event) {
+    var pattern = /^[A-Z].{0,8}[a-zA-Z]$/;
+    var value = event.target.value;
+    var inputIdx = parseInt(event.target.getAttribute("input-idx"));
+    var errorText = event.target.parentNode.querySelector("p");
+    if (!pattern.test(value)) {
+        event.target.classList.remove("is-valid");
+        event.target.classList.add("is-invalid");
+        errorText.style.display = "block";
+        inputStates[inputIdx] = false;
+    }
+    else {
+        event.target.classList.remove("is-invalid");
+        event.target.classList.add("is-valid");
+        errorText.style.display = "none";
+        inputStates[inputIdx] = true;
+    }
+}
+
+function validateNumericalInputFields(event) {
+    var inputValue = event.target.value.trim();
+    var value = parseInt(inputValue);
+    var inputIdx = parseInt(event.target.getAttribute("input-idx"));
+    var errorText = event.target.parentNode.querySelector("p");
+    if (inputValue == "" || isNaN(value) || value < 100) {
+        event.target.classList.remove("is-valid");
+        event.target.classList.add("is-invalid");
+        errorText.style.display = "block";
+        inputStates[inputIdx] = false;
+    }
+    else {
+        event.target.classList.remove("is-invalid");
+        event.target.classList.add("is-valid");
+        errorText.style.display = "none";
+        inputStates[inputIdx] = true;
+    }
+}
+
+function validateCourseDescription(event) {
+    var value = event.target.value;
+    var inputIdx = parseInt(event.target.getAttribute("input-idx"));
+    var static = event.target.parentNode.querySelector(".static");
+    var changing = event.target.parentNode.querySelector(".changing");
+    static.style.display = "inline";
+    changing.style.display = "inline";
+    changing.innerHTML = value.length;
+    if (value.length > 100) {
+        static.classList.remove("text-success");
+        static.classList.add("text-danger");
+        changing.classList.remove("text-success");
+        changing.classList.add("text-danger");
+        event.target.classList.remove("is-valid");
+        event.target.classList.add("is-invalid");
+        inputStates[inputIdx] = false;
+    } 
+    else {
+        static.classList.remove("text-danger");
+        static.classList.add("text-success");
+        changing.classList.remove("text-danger");
+        changing.classList.add("text-success");
+        event.target.classList.remove("is-invalid");
+        event.target.classList.add("is-valid");
+        inputStates[inputIdx] = true;
+    }
+}
+
+form.addEventListener("keyup", function() {
+    var isValid = true;
+    for (var i = 0; i < inputs.length; i++) {
+        if (!inputStates[i]) {
+            isValid = false;
+            break;
+        }
+    }
+    if (isValid) {
+        submitBtn.removeAttribute("disabled");
+        submitBtn.setAttribute("enabled", "enabled");
+    }
+    else {
+        submitBtn.removeAttribute("enabled");
+        submitBtn.setAttribute("disabled", "disabled");
+    }
+});
 
 function biSearch(target) {
     var left = 0; 
