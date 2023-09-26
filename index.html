@@ -5,11 +5,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>CRUD</title>
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 </head>
 
@@ -21,7 +22,7 @@
             <form action="">
                 <div class="course-name mb-3">
                     <label for="">course name <span class="text-danger">*</span> </label>
-                    <input class="inputs form-control" input-idx="0" type="text" placeholder="cource name" id="courseName">
+                    <input class="inputs form-control" input-idx="0" type="text" placeholder="course name" id="courseName">
                     <p class="error-text text-danger" style="display: none">Course name must start with an uppdercase letter and contains 2 - 10 letters</p>
                 </div>
                 <div class="course-category mb-3">
@@ -35,7 +36,7 @@
                     <p class="error-text text-danger" style="display: none">Course price can't be less than a 100</p>
                 </div>
                 <div class="course-desc mb-3">
-                    <label for="">course description <span class="changing ms-4" style="display: none;"></span><span class="static text-success" style="display: none;">/100</span></label>
+                    <label for="">course description <span class="changing ms-4" style="display: none;"></span><span class=" static text-success" style="display: none;">/100</span></label>
                     <textarea class="inputs form-control" input-idx="3" placeholder="course description"
                     id="courseDescription"></textarea>
                 </div>
@@ -55,13 +56,13 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>name</th>
-                        <th>category</th>
-                        <th>price</th>
-                        <th>description</th>
-                        <th>capacity</th>
-                        <th>update</th>
-                        <th>delete</th>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Description</th>
+                        <th>Capacity</th>
+                        <th>Update</th>
+                        <th>Delete</th>
                     </tr>
                 </thead>
                 <button id="deleteBtn" class="btn btn-outline-danger text-center my-3">Delete All</button>
@@ -75,6 +76,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js"
         integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy"
         crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="index.js"></script>
 </body>
 
